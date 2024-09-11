@@ -1,0 +1,31 @@
+.todo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.wrapButtons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.inputEdit {
+    flex-grow: 1;
+}
+
+.btnDelete {
+    cursor: pointer;
+    background-color: #dbdbdb;
+    border: 1px solid #c1c2c3;
+    border-radius: 3px;
+    padding: 4px 6px;
+    text-decoration: none;
+    color: black;
+    font-size: 13.3333px;
+    font-family: Arial, sans-serif;
+}
+.btnDelete:hover {
+    background-color: #c1c2c3;
+}
