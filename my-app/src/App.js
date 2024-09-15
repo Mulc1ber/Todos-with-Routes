@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Home, Task, TodoNotFound, NotFound, TodoEdit, Todo } from './Components';
+import { Home, TodoNotFound, NotFound, TodoEdit, Todo } from './Components';
 import styles from './App.module.css';
 
 export const App = () => {
