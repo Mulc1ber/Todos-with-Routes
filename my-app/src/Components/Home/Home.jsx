@@ -2,9 +2,9 @@ import { useRequestGetTodos } from '../../Hooks';
 import { AddTodo } from '../AddTodo/AddTodo';
 import { Search } from '../Search/Search';
 import { Sort } from '../Sort/Sort';
-import styles from './Home.module.css';
 import { TodoList } from '../TodoList/TodoList';
 import { useEffect, useState } from 'react';
+import styles from './Home.module.css';
 
 export const Home = () => {
     const [todoList, setTodoList] = useState([]);
