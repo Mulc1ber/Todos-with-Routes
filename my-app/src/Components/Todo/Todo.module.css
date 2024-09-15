@@ -29,3 +29,23 @@
 .btnDelete:hover {
     background-color: #c1c2c3;
 }
+
+.btnBack {
+    cursor: pointer;
+    background-color: #dbdbdb;
+    border: 1px solid #c1c2c3;
+    border-radius: 3px;
+    padding: 2px 6px;
+    text-decoration: none;
+    color: black;
+    font-size: 13.3333px;
+    font-family: Arial, sans-serif;
+}
+.btnBack:hover {
+    background-color: #c1c2c3;
+}
+.btnBack::before {
+    content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9ImJsYWNrIiBkPSJNMTIuNzI3IDMuNjg3YTEgMSAwIDEgMC0xLjQ1NC0xLjM3NGwtOC41IDlhMSAxIDAgMCAwIDAgMS4zNzRsOC41IDkuMDAxYTEgMSAwIDEgMCAxLjQ1NC0xLjM3M0w0Ljg3NSAxMnoiLz48L3N2Zz4=');
+    position: relative;
+    top: 2px;
+}

@@ -1,8 +1,12 @@
 export const useRequestDeleteTodo = () => {
-    const requestDeteleTodo = (id) => {
-        fetch(`http://localhost:3005/todos/${id}`, {
-            method: 'DELETE',
-        }).then((rawResponse) => rawResponse.json());
+    const requestDeteleTodo = async (id) => {
+        try {
+            return await fetch(`http://localhost:3005/todos/${id}`, {
+                method: 'DELETE',
+            });
+        } catch (err) {
+            console.log('err', err);
+        }
     };
 
     return {

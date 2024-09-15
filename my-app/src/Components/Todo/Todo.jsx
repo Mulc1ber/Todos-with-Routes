@@ -1,84 +1,68 @@
 import React from 'react';
-import { useState, useRef, useEffect } from 'react';
-import { useRequestUpdateTodo, useRequestDeleteTodo } from '../../Hooks';
-import styles from './Todo.module.css';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useRequestDeleteTodo, useGetTodoById } from '../../Hooks';
 import { Button } from '../Button/Button';
-import { Input } from '../Input/Input';
-import { Link } from 'react-router-dom';
+import { Loader } from '../Loader/Loader';
+import styles from './Todo.module.css';
 
-export const Todo = ({ id, title }) => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [titleState, setTitleState] = useState(title);
-    const [prevTitle, setPrevTitle] = useState('');
+export const Todo = () => {
+    const [todo, setTodo] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
-    const { requestUpdateTodo } = useRequestUpdateTodo();
+    const { getTodoById } = useGetTodoById();
     const { requestDeteleTodo } = useRequestDeleteTodo();
 
-    const refInput = useRef();
-
-    useEffect(() => {
-        if (isEditing) {
-            refInput.current?.focus();
-        }
-    }, [isEditing]);
-
-    const handleChange = ({ target }) => {
-        console.log('Change');
-        setTitleState(target.value);
-    };
+    const navigate = useNavigate();
+    const params = useParams();
 
     const handleEdit = () => {
-        console.log('Edit');
-        setPrevTitle(titleState);
-        setIsEditing(!isEditing);
-    };
-
-    const handleCancel = () => {
-        console.log('Cancel');
-        setTitleState(prevTitle);
-        setIsEditing(!isEditing);
-    };
-
-    const handleSave = () => {
-        console.log('Save');
-        requestUpdateTodo(id, titleState);
-        setIsEditing(!isEditing);
+        navigate('/task/' + params.id + '/edit');
     };
 
     const handleDelete = () => {
-        console.log('Detele');
-        requestDeteleTodo(id);
+        requestDeteleTodo(params.id).then((response) => {
+            if (response.ok) {
+                navigate('/');
+            }
+        });
     };
+
+    useEffect(() => {
+        getTodoById(params.id, setIsLoading)
+            .then((response) => {
+                if (!response.ok) {
+                    navigate('/task-not-found');
+                } else {
+                    return response.json();
+                }
+            })
+            .then((data) => {
+                setTodo(data);
+            })
+            .finally(() => setIsLoading(false));
+    }, [params.id, setTodo, navigate]);
 
     return (
         <>
-            <div className={styles.todo}>
-                {isEditing ? (
-                    <>
-                        <Input
-                            type="text"
-                            value={titleState}
-                            onChange={handleChange}
-                            refInput={refInput}
-                            className={styles.inputEdit}
-                        />
+            {isLoading ? (
+                <Loader />
+            ) : (
+                <>
+                    <div style={{ marginBottom: '10px' }}>
+                        <button className={styles.btnBack} onClick={() => navigate('/')}>
+                            Назад
+                        </button>
+                    </div>
+                    <div className={styles.todo}>
+                        <div>{todo.title}</div>
                         <div className={styles.wrapButtons}>
-                            <Button onClick={handleSave}>Сохранить</Button>
-                            <Button onClick={handleCancel}>Отменить</Button>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div>{titleState}</div>
-                        <div className={styles.wrapButtons}>
-                            <Link to="/" onClick={handleDelete} className={styles.btnDelete}>
-                                Удалить
-                            </Link>
+                            <Button onClick={handleDelete}>Удалить</Button>
                             <Button onClick={handleEdit}>Изменить</Button>
                         </div>
-                    </>
-                )}
-            </div>
+                    </div>
+                </>
+            )}
         </>
     );
 };
